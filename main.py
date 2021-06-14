@@ -65,7 +65,11 @@ def update_key_image(deck, key, state):
 # associated actions when a key is pressed.
 def key_change_callback(deck, key, state):
     # Print new key state
-    print("Deck {} Key {} = {}".format(deck.id(), key, state), flush=True)
+    print("Key {} = {}".format(key, state), flush=True)
+
+    # TODO: Make this not suck
+    if key == 0 and state:
+        page2.render_buttons()
 
     # Update the key image based on the new key state.
     # update_key_image(deck, key, state)

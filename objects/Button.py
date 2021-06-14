@@ -16,7 +16,7 @@ class Button:
         # leaving a margin at the bottom so that we can draw the key title
         # afterwards.
         icon = Image.open(self.icon)
-        image = PILHelper.create_scaled_image(self.deck, icon, margins=[0, 0, 20, 0])
+        image = PILHelper.create_scaled_image(self.deck, icon, margins=[0, 0, 0, 0])
         self.deck.set_key_image(self.location, PILHelper.to_native_format(self.deck, image))
 
     def execute(self):
