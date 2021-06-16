@@ -1,16 +1,13 @@
-from objects import Button
-
-
 class Page:
 
     def __init__(self, buttons, deck, name):
         self.buttons = buttons
         self.name = name
         self.deck = deck
-        deck.set_key_callback(self.execute_button)
 
     def render_buttons(self):
         self.deck.reset()
+        self.deck.set_key_callback(self.execute_button)
         for b in self.buttons:
             b.display_button()
 
