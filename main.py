@@ -4,6 +4,7 @@ import os
 import threading
 
 from StreamDeck.DeviceManager import DeviceManager
+from layout import layout
 
 # Folder location of image assets used by this example.
 from objects.Button import Button
@@ -24,21 +25,27 @@ if __name__ == "__main__":
         # Set initial screen brightness to 30%.
         deck.set_brightness(30)
 
-        # TODO: Deck is needed here, but if these definitions were in a module, that would be ideal
-        button3 = ActionButton(deck, 0, "WarpPE", os.path.join(ASSETS_PATH, "WarpPE.png"), warp_pe)
-        button4 = NavButton(deck, 31, "Exit", os.path.join(ASSETS_PATH, "Exit.png"))
-        page2 = Page([button3, button4], deck, "Page 2")
+        pages = [Page(deck, "Home"), Page(deck, "MechJeb")]
+        page_dict = {"Home": pages[0], "MechJeb": pages[1]}
+        for p in pages:
+            for button in list(filter(lambda x: x["page"] == p.name, layout)):
+                if button["type"] == "nav":
+                    p.add_button(NavButton(
+                        deck,
+                        button["location"],
+                        button["name"],
+                        os.path.join(ASSETS_PATH, button["icon"]),
+                        page_dict[button["dest"]]))
+                elif button["type"] == "action":
+                    p.add_button(ActionButton(
+                        deck,
+                        button["location"],
+                        button["name"],
+                        os.path.join(ASSETS_PATH, button["icon"]),
+                        button["callback"]))
 
-        button1 = NavButton(deck, 0, "MechJeb", os.path.join(ASSETS_PATH, "MechJeb.png"), page2)
-        button2 = NavButton(deck, 1, "ActionGroups", os.path.join(ASSETS_PATH, "ActionGroups.png"))
-        home = Page([button1, button2], deck, "Home")
-
-        # TODO: This is janky as fuck
-        home.buttons[0].page = page2
-        page2.buttons[1].page = home
-
+        home = pages[0]
         home.render_buttons()
-
         # Wait until all application threads have terminated (for this example,
         # this is when all deck handles are closed).
         for t in threading.enumerate():

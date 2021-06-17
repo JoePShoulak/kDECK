@@ -1,9 +1,12 @@
 class Page:
 
-    def __init__(self, buttons, deck, name):
-        self.buttons = buttons
+    def __init__(self, deck, name):
+        self.buttons = []
         self.name = name
         self.deck = deck
+
+    def add_button(self, button):
+        self.buttons.append(button)
 
     def render_buttons(self):
         self.deck.reset()
