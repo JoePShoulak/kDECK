@@ -25,12 +25,12 @@ if __name__ == "__main__":
         deck.set_brightness(30)
 
         # TODO: Deck is needed here, but if these definitions were in a module, that would be ideal
-        button3 = Button(deck, 0, "Harold", os.path.join(ASSETS_PATH, "WarpPE.png"))
-        button4 = Button(deck, 31, "Exit", os.path.join(ASSETS_PATH, "Exit.png"))
+        button3 = ActionButton(deck, 0, "WarpPE", os.path.join(ASSETS_PATH, "WarpPE.png"), warp_pe)
+        button4 = NavButton(deck, 31, "Exit", os.path.join(ASSETS_PATH, "Exit.png"))
         page2 = Page([button3, button4], deck, "Page 2")
 
-        button1 = Button(deck, 0, "MechJeb", os.path.join(ASSETS_PATH, "MechJeb.png"))
-        button2 = Button(deck, 1, "ActionGroups", os.path.join(ASSETS_PATH, "ActionGroups.png"))
+        button1 = NavButton(deck, 0, "MechJeb", os.path.join(ASSETS_PATH, "MechJeb.png"), page2)
+        button2 = NavButton(deck, 1, "ActionGroups", os.path.join(ASSETS_PATH, "ActionGroups.png"))
         home = Page([button1, button2], deck, "Home")
 
         # TODO: This is janky as fuck
