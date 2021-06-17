@@ -8,7 +8,7 @@ from StreamDeck.DeviceManager import DeviceManager
 from helper import get_page_names
 from layout import layout
 
-from objects.Button import NavButton, ActionButton
+from objects.Button import NavButton, ActionButton, ValueButton, ParamButton
 from objects.Page import Page
 
 ASSETS_PATH = os.path.join(os.path.dirname(__file__), "Assets")
@@ -22,7 +22,8 @@ if __name__ == "__main__":
         deck.reset()
 
         # Set initial screen brightness to 30%.
-        deck.set_brightness(30)
+        # deck.set_brightness(30)
+        deck.set_brightness(100)
 
         page_dict = {i: Page(deck, i) for i in get_page_names(layout)}
         for p in page_dict.values():
@@ -41,7 +42,26 @@ if __name__ == "__main__":
                         button["location"],
                         button["name"],
                         os.path.join(ASSETS_PATH, button["icon"]),
-                        button["callback"])
+                        button["callback"],
+                        button["params"])
+                    )
+                elif button["type"] == "value":
+                    p.add_button(ValueButton(
+                        deck,
+                        button["location"],
+                        button["name"],
+                        os.path.join(ASSETS_PATH, button["icon"]),
+                        button["value"],
+                        button["label"])
+                    )
+                elif button["type"] == "param":
+                    p.add_button(ParamButton(
+                        deck,
+                        button["location"],
+                        button["name"],
+                        os.path.join(ASSETS_PATH, button["icon"]),
+                        button["value_button"],
+                        button["delta"])
                     )
 
         home = page_dict["Home"]
