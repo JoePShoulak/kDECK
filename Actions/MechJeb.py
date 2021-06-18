@@ -1,6 +1,7 @@
 import krpc
 
 # Warp #
+from helper import show
 
 warp_destinations = {
     "pe": "periapsis",
@@ -32,7 +33,7 @@ def warp(params):
             next_node = nodes[0]
             time = next_node.time_to
 
-    conn.ui.message(f'Warping to {warp_destinations[destination]}...', 5)
+    show(conn, f'Warping to {warp_destinations[destination]}...')
 
     conn.space_center.warp_to(ut() + time - lead_time)
 
@@ -72,5 +73,7 @@ def smart_ass(params):
         mode = modes.off  # TODO: Implement surface
     elif direction == "up":
         mode = modes.vertical_plus
+
+    show(conn, f'Smart A.S.S. set to {direction}')
 
     mj.smart_ass.autopilot_mode = mode

@@ -3,6 +3,10 @@ import os
 ASSETS_PATH = os.path.join(os.path.dirname(__file__), "Assets")
 
 
+def show(conn, text):
+    conn.ui.message("kDECK: " + text, 5)
+
+
 def path_to(icon):
     return os.path.join(ASSETS_PATH, icon)
 
