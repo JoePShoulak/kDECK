@@ -36,6 +36,7 @@ def warp(params):
     show(conn, f'Warping to {warp_destinations[destination]}...')
 
     conn.space_center.warp_to(ut() + time - lead_time)
+    conn.close()
 
 # TODO: Try to implement tabbed page like in the MJ UI
 
@@ -77,3 +78,4 @@ def smart_ass(params):
     show(conn, f'Smart A.S.S. set to {direction}')
 
     mj.smart_ass.autopilot_mode = mode
+    conn.close()
