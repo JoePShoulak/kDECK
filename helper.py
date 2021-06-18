@@ -1,3 +1,12 @@
+import os
+
+ASSETS_PATH = os.path.join(os.path.dirname(__file__), "Assets")
+
+
+def path_to(icon):
+    return os.path.join(ASSETS_PATH, icon)
+
+
 def get_page_names(layout):
     page_names = []
 
