@@ -11,7 +11,8 @@ def warp(params):
 
     conn = krpc.connect(name="Smart Warp")
     ut = conn.add_stream(getattr, conn.space_center, 'ut')
-    my_orbit = conn.space_center.active_vessel.orbit
+    my_vessel = conn.space_center.active_vessel
+    my_orbit = my_vessel.orbit
     time = 0
 
     if destination == "pe":

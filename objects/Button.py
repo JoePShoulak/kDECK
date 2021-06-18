@@ -5,7 +5,6 @@ from PIL import Image, ImageDraw, ImageFont
 from StreamDeck.ImageHelpers import PILHelper
 
 dirname = os.path.dirname
-
 ASSETS_PATH = os.path.join(dirname(dirname(__file__)), "Assets")
 
 
@@ -36,19 +35,17 @@ class NavButton(Button):
 
 
 class ActionButton(Button):
-    def __init__(self, deck, location, name, icon, callback, value_button, params=None):
+    def __init__(self, deck, location, name, icon, callback, value_button, params):
         super().__init__(deck, location, name, icon)
         self.callback = callback
         self.value_button = value_button
         self.params = params
 
     def execute(self):
-        self.params["value"] = self.value_button.value
+        if self.value_button:
+            self.params["value"] = self.value_button.value
 
-        if self.params:
-            self.callback(self.params)
-        else:
-            self.callback()
+        self.callback(self.params)
 
 
 class ValueButton(Button):
@@ -95,7 +92,7 @@ class ParamButton(Button):
             label = "+" + str(self.delta)
         else:
             label = str(self.delta)
-        draw.text((image.width / 2, image.height / 2), text=label, font=font, anchor="ms", fill="white")
+        draw.text((image.width / 2, image.height / 2 + 20), text=label, font=font, anchor="ms", fill="white")
 
         self.deck.set_key_image(self.location, PILHelper.to_native_format(self.deck, image))
 

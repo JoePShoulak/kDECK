@@ -1,37 +1,31 @@
 from Actions.MechJeb import warp
+from Actions.Utilities import science
+
+
+def null_callback(params=None):
+    pass
 
 layout = [
-    # HOME #
-    {
-        "name": "MechJeb",
-        "type": "nav",
-        "icon": "mechjeb\\MechJeb.png",
-        "location": 0,
-        "page": "Home",
-        "dest": "MechJeb"
-    },
 
-    # MECHJEB #
+    # HOME #
     {
         "name": "Warp",
         "type": "nav",
-        "icon": "mechjeb\\warp\\Warp.png",
+        "icon": "warp\\Warp.png",
         "location": 0,
-        "page": "MechJeb",
+        "page": "Home",
         "dest": "Warp"
     },
-
     {
-        "name": "Exit",
+        "name": "Utilities",
         "type": "nav",
-        "icon": "Exit.png",
-        "location": 31,
-        "page": "MechJeb",
-        "dest": "Home"
+        "icon": "utilities\\Utilities.png",
+        "location": 1,
+        "page": "Home",
+        "dest": "Utilities"
     },
 
     # WARP #
-
     {
         "name": "LeadTime",
         "type": "value",
@@ -41,11 +35,10 @@ layout = [
         "label": "Lead time (s):",
         "value": "0"
     },
-
     {
         "name": "WarpPE",
         "type": "action",
-        "icon": "mechjeb\\warp\\WarpPE.png",
+        "icon": "warp\\WarpPE.png",
         "location": 0,
         "page": "Warp",
         "callback": warp,
@@ -57,7 +50,7 @@ layout = [
     {
         "name": "WarpAP",
         "type": "action",
-        "icon": "mechjeb\\warp\\WarpAP.png",
+        "icon": "warp\\WarpAP.png",
         "location": 1,
         "page": "Warp",
         "callback": warp,
@@ -69,7 +62,7 @@ layout = [
     {
         "name": "WarpSOI",
         "type": "action",
-        "icon": "mechjeb\\warp\\WarpSOI.png",
+        "icon": "warp\\WarpSOI.png",
         "location": 2,
         "page": "Warp",
         "callback": warp,
@@ -78,18 +71,14 @@ layout = [
             "destination": "soi",
         }
     },
-
     {
         "name": "Exit",
         "type": "nav",
         "icon": "Exit.png",
         "location": 31,
         "page": "Warp",
-        "dest": "MechJeb"
+        "dest": "Home"
     },
-]
-
-param_buttons = [
     {
         "name": "-100",
         "type": "param",
@@ -144,7 +133,41 @@ param_buttons = [
         "value_button": "LeadTime",
         "delta": 100
     },
-]
 
-layout.extend(param_buttons)
+
+
+    # Utilities #
+    {
+        "name": "NULL_VALUE",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 31,
+        "page": "Utilities",
+        "label": "",
+        "value": "0"
+    },
+
+    {
+        "name": "RunScience",
+        "type": "action",
+        "icon": "utilities\\RunScience.png",
+        "location": 0,
+        "page": "Utilities",
+        "callback": science,
+        "value_button": "NULL_VALUE",
+        "params": {
+            "event": "run"
+        }
+    },
+
+    {
+        "name": "Exit",
+        "type": "nav",
+        "icon": "Exit.png",
+        "location": 31,
+        "page": "Utilities",
+        "dest": "Home"
+    },
+
+]
 
