@@ -1,4 +1,4 @@
-from Actions.MechJeb import warp, smart_ass
+from Actions.MechJeb import warp, smart_ass, launch
 from helper import make_params
 
 
@@ -24,6 +24,14 @@ layout = [
         "location": 1,
         "page": "Home",
         "dest": "SmartAss"
+    },
+    {
+        "name": "Launch",
+        "type": "nav",
+        "icon": "Launch.png",
+        "location": 8,
+        "page": "Home",
+        "dest": "Launch"
     },
 
     # WARP #
@@ -248,6 +256,163 @@ layout = [
         "icon": "Exit.png",
         "location": 31,
         "page": "SmartAss",
+        "dest": "Home"
+    },
+
+    # Launch #
+    {
+        "name": "OrbitAlt",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 26,
+        "page": "Launch",
+        "label": "Orbit Alt. (km):",
+        "value": "100"
+    },
+    {
+        "name": "TurnAlt",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 18,
+        "page": "Launch",
+        "label": "Turn Alt. (km):",
+        "value": "100"
+    },
+    {
+        "name": "TurnVel",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 10,
+        "page": "Launch",
+        "label": "Turn Vel. (m/s):",
+        "value": "100"
+    },
+    {
+        "name": "ClimbRoll",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 14,
+        "page": "Launch",
+        "label": "Climb Roll (°):",
+        "value": "90"
+    },
+    {
+        "name": "TurnRoll",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 22,
+        "page": "Launch",
+        "label": "Turn Roll (°):",
+        "value": "90"
+    },
+    {
+        "name": "DeploySolar",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 29,
+        "page": "Launch",
+        "label": "Deploy Solar:",
+        "value": False,
+        "toggle": True
+    },
+    {
+        "name": "DeployComms",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 30,
+        "page": "Launch",
+        "label": "Deploy Comms:",
+        "value": False,
+        "toggle": True
+    },
+    {
+        "name": "AutostageLimit",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 2,
+        "page": "Launch",
+        "label": "Autostage to:",
+        "value": 1,
+    },
+    {
+        "name": "AutostageToggle",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 4,
+        "page": "Launch",
+        "label": "Autostage:",
+        "value": True,
+        "toggle": True
+    },
+    {
+        "name": "CircularizeToggle",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 5,
+        "page": "Launch",
+        "label": "Circularize:",
+        "value": True,
+        "toggle": True
+    },
+    {
+        "name": "WarpToggle",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 6,
+        "page": "Launch",
+        "label": "AutoWarp:",
+        "value": True,
+        "toggle": True
+    },
+    {
+        "name": "CorrectiveSteeringToggle",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 7,
+        "page": "Launch",
+        "label": "Autocorrect:",
+        "value": True,
+        "toggle": True
+    },
+
+    {
+        "name": "LaunchExecute",
+        "type": "action",
+        "icon": "Launch.png",
+        "location": 0,
+        "page": "Launch",
+        "callback": launch,
+        "value_buttons": [
+            "OrbitAlt",
+            "TurnAlt",
+            "TurnVel",
+            "ClimbRoll",
+            "TurnRoll",
+            "DeploySolar",
+            "DeployComms",
+            "AutostageLimit",
+            "AutostageToggle",
+            "CircularizeToggle",
+            "WarpToggle",
+            "CorrectiveSteeringToggle"
+        ],
+        "params": {
+        }
+    },
+
+    *make_params("Launch", "OrbitAlt", [10, 100]),
+    *make_params("Launch", "TurnAlt", [10, 100], 2),
+    *make_params("Launch", "TurnVel", [10, 100], 1),
+    *make_params("Launch", "ClimbRoll", [5], 1, 5),
+    *make_params("Launch", "TurnRoll", [5], 2, 5),
+    *make_params("Launch", "AutostageLimit", [1], 0, 1),
+
+    {
+        "name": "Exit",
+        "type": "nav",
+        "icon": "Exit.png",
+        "location": 31,
+        "page": "Launch",
         "dest": "Home"
     },
 ]

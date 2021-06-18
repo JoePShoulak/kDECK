@@ -49,14 +49,17 @@ class ActionButton(Button):
 
 
 class ValueButton(Button):
-    def __init__(self, deck, location, name, icon, value, label):
+    def __init__(self, deck, location, name, icon, value, label, toggle=False):
         super().__init__(deck, location, name, icon)
         self.value = value
         self.label = label
+        self.toggle = toggle
 
     def execute(self):
-        pass
-    
+        if self.toggle:
+            self.value = not self.value
+            self.display_button()
+
     def display_button(self):
         icon = Image.open(self.icon)
         image = PILHelper.create_scaled_image(self.deck, icon)
@@ -64,7 +67,7 @@ class ValueButton(Button):
         draw = ImageDraw.Draw(image)
         value_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 28)
         label_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 14)
-        draw.text((image.width / 2, image.height / 2 + 20), text=self.value, font=value_font, anchor="ms", fill="white")
+        draw.text((image.width / 2, image.height / 2 + 20), text=str(self.value), font=value_font, anchor="ms", fill="white")
         draw.text((image.width / 2, 20), text=self.label, font=label_font, anchor="ms", fill="white")
         self.deck.set_key_image(self.location, PILHelper.to_native_format(self.deck, image))
 

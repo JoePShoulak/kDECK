@@ -49,13 +49,17 @@ if __name__ == "__main__":
                         button["params"])
                     )
                 elif button["type"] == "value":
+                    toggle = False
+                    if "toggle" in button.keys():
+                        toggle = True
                     p.add_button(ValueButton(
                         deck,
                         button["location"],
                         button["name"],
                         path_to(button["icon"]),
                         button["value"],
-                        button["label"])
+                        button["label"],
+                        toggle)
                     )
                 elif button["type"] == "param":
                     value_button = next(b for b in p.buttons if b.name == button["value_button"])

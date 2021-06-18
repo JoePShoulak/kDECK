@@ -21,16 +21,23 @@ def get_page_names(layout):
     return page_names
 
 
-def make_params(page, value_button):
+def make_params(page, value_button, lst=None, row=3, offset=0):
+    if lst is None:
+        lst = [1, 10, 100]
     params = []
-    for index, delta in enumerate([-100, -10, -1, False, 1, 10, 100]):
+    options = []
+    for i in lst[::-1]:
+        options.append(-i)
+    options.append(False)
+    options.extend(lst)
+    for index, delta in enumerate(options):
         if delta:
             params.append(
                 {
                     "name": str(delta),
                     "type": "param",
                     "icon": "bg.png",
-                    "location": 24 + index,
+                    "location": (8*row) + index + offset,
                     "page": page,
                     "value_button": value_button,
                     "delta": delta

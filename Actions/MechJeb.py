@@ -19,6 +19,8 @@ def warp(params):
     ut = conn.add_stream(getattr, conn.space_center, 'ut')
     my_vessel = conn.space_center.active_vessel
     my_orbit = my_vessel.orbit
+    my_body = my_orbit.body
+    my_ref = my_vessel.reference_frame
     time = 0
 
     if destination == "pe":
@@ -32,6 +34,13 @@ def warp(params):
         if nodes:
             next_node = nodes[0]
             time = next_node.time_to
+    elif destination == "atmos":
+        if my_body.has_atmosphere and my_orbit.periapsis < my_body.atmosphere_depth:
+            pe_time = my_orbit.time_to_periapsis
+            bin_delta = pe_time / 4
+            guess_time = pe_time / 2
+            guess_altitude = my_body.altitude_at(my_orbit.position_at(ut() + guess_time, my_ref))
+            atmos = my_body.atmosphere_depth
 
     show(conn, f'Warping to {warp_destinations[destination]}...')
 
@@ -79,3 +88,8 @@ def smart_ass(params):
 
     mj.smart_ass.autopilot_mode = mode
     conn.close()
+
+
+def launch(params):
+    for k, v in params.items():
+        print(f'{k}: {v.value}')
