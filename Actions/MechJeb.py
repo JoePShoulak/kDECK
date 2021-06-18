@@ -9,9 +9,6 @@ def warp(params):
     destination = params["destination"]
     lead_time = int(params["value"])
 
-    print("got_here")
-    print(f'Dest: {destination} Lead: {lead_time}')
-
     conn = krpc.connect(name="Smart Warp")
     ut = conn.add_stream(getattr, conn.space_center, 'ut')
     my_orbit = conn.space_center.active_vessel.orbit
