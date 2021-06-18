@@ -1,7 +1,5 @@
 import krpc
 
-# Maneuvers #
-
 # Warp #
 
 

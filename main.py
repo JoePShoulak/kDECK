@@ -37,13 +37,19 @@ if __name__ == "__main__":
                         page_dict[button["dest"]])
                     )
                 elif button["type"] == "action":
+                    # TODO: Allow multiple value buttons, probably as a dict
+                    value_button = None
+                    try:
+                        value_button = next(b for b in p.buttons if b.name == button["value_button"])
+                    except StopIteration:
+                        pass
                     p.add_button(ActionButton(
                         deck,
                         button["location"],
                         button["name"],
                         os.path.join(ASSETS_PATH, button["icon"]),
                         button["callback"],
-                        next(b for b in p.buttons if b.name == button["value_button"]),
+                        value_button,
                         button["params"])
                     )
                 elif button["type"] == "value":

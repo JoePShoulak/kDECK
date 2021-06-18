@@ -1,9 +1,6 @@
 from Actions.MechJeb import warp
 from Actions.Utilities import science
-
-
-def null_callback(params=None):
-    pass
+from helper import make_params
 
 layout = [
 
@@ -79,62 +76,8 @@ layout = [
         "page": "Warp",
         "dest": "Home"
     },
-    {
-        "name": "-100",
-        "type": "param",
-        "icon": "bg.png",
-        "location": 24,
-        "page": "Warp",
-        "value_button": "LeadTime",
-        "delta": -100
-    },
-    {
-        "name": "-10",
-        "type": "param",
-        "icon": "bg.png",
-        "location": 25,
-        "page": "Warp",
-        "value_button": "LeadTime",
-        "delta": -10
-    },
-    {
-        "name": "-1",
-        "type": "param",
-        "icon": "bg.png",
-        "location": 26,
-        "page": "Warp",
-        "value_button": "LeadTime",
-        "delta": -1
-    },
-    {
-        "name": "+1",
-        "type": "param",
-        "icon": "bg.png",
-        "location": 28,
-        "page": "Warp",
-        "value_button": "LeadTime",
-        "delta": 1
-    },
-    {
-        "name": "+10",
-        "type": "param",
-        "icon": "bg.png",
-        "location": 29,
-        "page": "Warp",
-        "value_button": "LeadTime",
-        "delta": 10
-    },
-    {
-        "name": "+100",
-        "type": "param",
-        "icon": "bg.png",
-        "location": 30,
-        "page": "Warp",
-        "value_button": "LeadTime",
-        "delta": 100
-    },
 
-
+    *make_params("Warp", "LeadTime"),
 
     # Utilities #
     {
@@ -154,7 +97,7 @@ layout = [
         "location": 0,
         "page": "Utilities",
         "callback": science,
-        "value_button": "NULL_VALUE",
+        "value_button": [],
         "params": {
             "event": "run"
         }
