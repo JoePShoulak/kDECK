@@ -43,6 +43,7 @@ if __name__ == "__main__":
                         button["name"],
                         os.path.join(ASSETS_PATH, button["icon"]),
                         button["callback"],
+                        next(b for b in p.buttons if b.name == button["value_button"]),
                         button["params"])
                     )
                 elif button["type"] == "value":
@@ -60,7 +61,7 @@ if __name__ == "__main__":
                         button["location"],
                         button["name"],
                         os.path.join(ASSETS_PATH, button["icon"]),
-                        button["value_button"],
+                        next(b for b in p.buttons if b.name == button["value_button"]),
                         button["delta"])
                     )
 

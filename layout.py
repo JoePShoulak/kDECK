@@ -31,6 +31,17 @@ layout = [
     },
 
     # WARP #
+
+    {
+        "name": "LeadTime",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 27,
+        "page": "Warp",
+        "label": "Lead time (s):",
+        "value": "0"
+    },
+
     {
         "name": "WarpPE",
         "type": "action",
@@ -38,7 +49,10 @@ layout = [
         "location": 0,
         "page": "Warp",
         "callback": warp,
-        "params": "pe"
+        "value_button": "LeadTime",
+        "params": {
+            "destination": "pe",
+        }
     },
     {
         "name": "WarpAP",
@@ -47,7 +61,10 @@ layout = [
         "location": 1,
         "page": "Warp",
         "callback": warp,
-        "params": "ap"
+        "value_button": "LeadTime",
+        "params": {
+            "destination": "ap",
+        }
     },
     {
         "name": "WarpSOI",
@@ -56,17 +73,10 @@ layout = [
         "location": 2,
         "page": "Warp",
         "callback": warp,
-        "params": "soi"
-    },
-
-    {
-        "name": "LeadTime",
-        "type": "value",
-        "icon": "bg.png",
-        "location": 8,
-        "page": "Warp",
-        "label": "Lead time (s):",
-        "value": "0"
+        "value_button": "LeadTime",
+        "params": {
+            "destination": "soi",
+        }
     },
 
     {
@@ -79,20 +89,62 @@ layout = [
     },
 ]
 
-'''
 param_buttons = [
+    {
+        "name": "-100",
+        "type": "param",
+        "icon": "bg.png",
+        "location": 24,
+        "page": "Warp",
+        "value_button": "LeadTime",
+        "delta": -100
+    },
+    {
+        "name": "-10",
+        "type": "param",
+        "icon": "bg.png",
+        "location": 25,
+        "page": "Warp",
+        "value_button": "LeadTime",
+        "delta": -10
+    },
+    {
+        "name": "-1",
+        "type": "param",
+        "icon": "bg.png",
+        "location": 26,
+        "page": "Warp",
+        "value_button": "LeadTime",
+        "delta": -1
+    },
     {
         "name": "+1",
         "type": "param",
         "icon": "bg.png",
-        "location": 9,
+        "location": 28,
         "page": "Warp",
-        "value_button": next(x for x in layout if x["name"] == "LeadTime"),
+        "value_button": "LeadTime",
         "delta": 1
+    },
+    {
+        "name": "+10",
+        "type": "param",
+        "icon": "bg.png",
+        "location": 29,
+        "page": "Warp",
+        "value_button": "LeadTime",
+        "delta": 10
+    },
+    {
+        "name": "+100",
+        "type": "param",
+        "icon": "bg.png",
+        "location": 30,
+        "page": "Warp",
+        "value_button": "LeadTime",
+        "delta": 100
     },
 ]
 
 layout.extend(param_buttons)
-'''
-
 

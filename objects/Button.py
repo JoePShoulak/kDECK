@@ -36,12 +36,15 @@ class NavButton(Button):
 
 
 class ActionButton(Button):
-    def __init__(self, deck, location, name, icon, callback, params=None):
+    def __init__(self, deck, location, name, icon, callback, value_button, params=None):
         super().__init__(deck, location, name, icon)
         self.callback = callback
+        self.value_button = value_button
         self.params = params
 
     def execute(self):
+        self.params["value"] = self.value_button.value
+
         if self.params:
             self.callback(self.params)
         else:
@@ -76,9 +79,9 @@ class ParamButton(Button):
         self.delta = delta
 
     def execute(self):
-        value = int(self.value_button["value"])
+        value = int(self.value_button.value)
         value += self.delta
-        self.value_button["value"] = str(max(value, 0))
+        self.value_button.value = str(max(value, 0))
 
         self.value_button.display_button()
 
@@ -87,8 +90,12 @@ class ParamButton(Button):
         image = PILHelper.create_scaled_image(self.deck, icon)
 
         draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 14)
-        draw.text((image.width / 2, image.height / 2), text=str(self.delta), font=font, anchor="ms", fill="white")
+        font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 28)
+        if self.delta > 0:
+            label = "+" + str(self.delta)
+        else:
+            label = str(self.delta)
+        draw.text((image.width / 2, image.height / 2), text=label, font=font, anchor="ms", fill="white")
 
         self.deck.set_key_image(self.location, PILHelper.to_native_format(self.deck, image))
 
