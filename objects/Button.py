@@ -35,16 +35,15 @@ class NavButton(Button):
 
 
 class ActionButton(Button):
-    def __init__(self, deck, location, name, icon, callback, value_button, params):
+    def __init__(self, deck, location, name, icon, callback, value_buttons, params):
         super().__init__(deck, location, name, icon)
         self.callback = callback
-        self.value_button = value_button
+        self.value_buttons = value_buttons
         self.params = params
 
     def execute(self):
-        # TODO: Part of the other TODO on accepting multiple value buttons
-        if self.value_button:
-            self.params["value"] = self.value_button.value
+        for vb in self.value_buttons:
+            self.params[vb.name] = vb
 
         self.callback(self.params)
 

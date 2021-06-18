@@ -1,6 +1,10 @@
-from Actions.MechJeb import warp
-from Actions.Utilities import science
+from Actions.MechJeb import warp, smart_ass
 from helper import make_params
+
+
+def empty():
+    pass
+
 
 layout = [
 
@@ -14,12 +18,12 @@ layout = [
         "dest": "Warp"
     },
     {
-        "name": "Utilities",
+        "name": "SmartAss",
         "type": "nav",
-        "icon": "utilities\\Utilities.png",
+        "icon": "smartass\\SmartAss.png",
         "location": 1,
         "page": "Home",
-        "dest": "Utilities"
+        "dest": "SmartAss"
     },
 
     # WARP #
@@ -39,7 +43,7 @@ layout = [
         "location": 0,
         "page": "Warp",
         "callback": warp,
-        "value_button": "LeadTime",
+        "value_buttons": ["LeadTime"],
         "params": {
             "destination": "pe",
         }
@@ -51,7 +55,7 @@ layout = [
         "location": 1,
         "page": "Warp",
         "callback": warp,
-        "value_button": "LeadTime",
+        "value_buttons": ["LeadTime"],
         "params": {
             "destination": "ap",
         }
@@ -63,9 +67,21 @@ layout = [
         "location": 2,
         "page": "Warp",
         "callback": warp,
-        "value_button": "LeadTime",
+        "value_buttons": ["LeadTime"],
         "params": {
             "destination": "soi",
+        }
+    },
+    {
+        "name": "WarpNode",
+        "type": "action",
+        "icon": "warp\\WarpNode.png",
+        "location": 3,
+        "page": "Warp",
+        "callback": warp,
+        "value_buttons": ["LeadTime"],
+        "params": {
+            "destination": "node",
         }
     },
     {
@@ -79,38 +95,160 @@ layout = [
 
     *make_params("Warp", "LeadTime"),
 
-    # Utilities #
+    # Smart A.S.S #
+    # Orbital
     {
-        "name": "NULL_VALUE",
-        "type": "value",
-        "icon": "bg.png",
-        "location": 31,
-        "page": "Utilities",
-        "label": "",
-        "value": "0"
-    },
-
-    {
-        "name": "RunScience",
+        "name": "Prograde",
         "type": "action",
-        "icon": "utilities\\RunScience.png",
+        "icon": "smartass\\Prograde.png",
         "location": 0,
-        "page": "Utilities",
-        "callback": science,
-        "value_button": [],
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
         "params": {
-            "event": "run"
+            "direction": "prograde",
         }
     },
-
+    {
+        "name": "Retrograde",
+        "type": "action",
+        "icon": "smartass\\Retrograde.png",
+        "location": 1,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "retrograde",
+        }
+    },
+    {
+        "name": "Normal",
+        "type": "action",
+        "icon": "smartass\\Normal.png",
+        "location": 8,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "normal",
+        }
+    },
+    {
+        "name": "AntiNormal",
+        "type": "action",
+        "icon": "smartass\\AntiNormal.png",
+        "location": 9,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "antinormal",
+        }
+    },
+    {
+        "name": "RadialOut",
+        "type": "action",
+        "icon": "smartass\\RadialOut.png",
+        "location": 16,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "radialout",
+        }
+    },
+    {
+        "name": "RadialIn",
+        "type": "action",
+        "icon": "smartass\\RadialIn.png",
+        "location": 17,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "radialin",
+        }
+    },
+    # Surface
+    {
+        "name": "SVEL+",
+        "type": "action",
+        "icon": "smartass\\SVEL_P.png",
+        "location": 2,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "svel+",
+        }
+    },
+    {
+        "name": "SVEL-",
+        "type": "action",
+        "icon": "smartass\\SVEL_M.png",
+        "location": 3,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "svel-",
+        }
+    },
+    {
+        "name": "HVEL+",
+        "type": "action",
+        "icon": "smartass\\HVEL_P.png",
+        "location": 10,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "hvel+",
+        }
+    },
+    {
+        "name": "HVEL-",
+        "type": "action",
+        "icon": "smartass\\HVEL_M.png",
+        "location": 11,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "hvel-",
+        }
+    },
+    {
+        "name": "Surf",
+        "type": "action",
+        "icon": "smartass\\Surf.png",
+        "location": 18,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "surf",
+        }
+    },
+    {
+        "name": "Up",
+        "type": "action",
+        "icon": "smartass\\Up.png",
+        "location": 19,
+        "page": "SmartAss",
+        "callback": smart_ass,
+        "value_buttons": [],
+        "params": {
+            "direction": "up",
+        }
+    },
     {
         "name": "Exit",
         "type": "nav",
         "icon": "Exit.png",
         "location": 31,
-        "page": "Utilities",
+        "page": "SmartAss",
         "dest": "Home"
     },
-
 ]
 
