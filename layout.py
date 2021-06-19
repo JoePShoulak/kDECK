@@ -1,4 +1,4 @@
-from Actions.MechJeb import warp, smart_ass, launch
+from Actions.MechJeb import warp, smart_ass, launch, rendezvous, dock, land
 from helper import make_params
 
 
@@ -32,6 +32,30 @@ layout = [
         "location": 8,
         "page": "Home",
         "dest": "Launch"
+    },
+    {
+        "name": "Rendezvous",
+        "type": "nav",
+        "icon": "Rendezvous.png",
+        "location": 9,
+        "page": "Home",
+        "dest": "Rendezvous"
+    },
+    {
+        "name": "Dock",
+        "type": "nav",
+        "icon": "Dock.png",
+        "location": 10,
+        "page": "Home",
+        "dest": "Dock"
+    },
+    {
+        "name": "Land",
+        "type": "nav",
+        "icon": "Land.png",
+        "location": 11,
+        "page": "Home",
+        "dest": "Land"
     },
 
     # WARP #
@@ -276,7 +300,7 @@ layout = [
         "location": 18,
         "page": "Launch",
         "label": "Turn Alt. (km):",
-        "value": "100"
+        "value": "10"
     },
     {
         "name": "TurnVel",
@@ -285,7 +309,7 @@ layout = [
         "location": 10,
         "page": "Launch",
         "label": "Turn Vel. (m/s):",
-        "value": "100"
+        "value": "500"
     },
     {
         "name": "ClimbRoll",
@@ -355,12 +379,12 @@ layout = [
         "toggle": True
     },
     {
-        "name": "WarpToggle",
+        "name": "RollToggle",
         "type": "value",
         "icon": "bg.png",
         "location": 6,
         "page": "Launch",
-        "label": "AutoWarp:",
+        "label": "Force Roll:",
         "value": True,
         "toggle": True
     },
@@ -393,7 +417,7 @@ layout = [
             "AutostageLimit",
             "AutostageToggle",
             "CircularizeToggle",
-            "WarpToggle",
+            "RollToggle",
             "CorrectiveSteeringToggle"
         ],
         "params": {
@@ -413,6 +437,226 @@ layout = [
         "icon": "Exit.png",
         "location": 31,
         "page": "Launch",
+        "dest": "Home"
+    },
+
+    # Rendezvous #
+
+    {
+        "name": "MaxOrbits",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 2,
+        "page": "Rendezvous",
+        "label": "Max Orbits:",
+        "value": "5"
+    },
+    {
+        "name": "Distance",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 10,
+        "page": "Rendezvous",
+        "label": "Distance (m):",
+        "value": "200"
+    },
+    {
+        "name": "AutoWarpToggle",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 4,
+        "page": "Rendezvous",
+        "label": "AutoWarp:",
+        "value": True,
+        "toggle": True
+    },
+
+    {
+        "name": "RendezvousExecute",
+        "type": "action",
+        "icon": "Rendezvous.png",
+        "location": 0,
+        "page": "Rendezvous",
+        "callback": rendezvous,
+        "value_buttons": [
+            "MaxOrbits",
+            "Distance",
+            "AutoWarpToggle"
+        ],
+        "params": {
+        }
+    },
+
+    *make_params("Rendezvous", "MaxOrbits", [1], 0, 1),
+    *make_params("Rendezvous", "Distance", [10, 100], 1),
+
+    {
+        "name": "Exit",
+        "type": "nav",
+        "icon": "Exit.png",
+        "location": 31,
+        "page": "Rendezvous",
+        "dest": "Home"
+    },
+
+    # Dock #
+
+    {
+        "name": "SpeedLimit",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 2,
+        "page": "Dock",
+        "label": "Vel. Limit (m/s):",
+        "value": "1"
+    },
+    {
+        "name": "DockRoll",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 10,
+        "page": "Dock",
+        "label": "Roll (°)",
+        "value": "0"
+    },
+    {
+        "name": "ForceRoll",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 8,
+        "page": "Dock",
+        "label": "Force Roll:",
+        "value": False,
+        "toggle": True
+    },
+    {
+        "name": "SafeDistanceOverride",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 4,
+        "page": "Dock",
+        "label": "Start Override:",
+        "value": False,
+        "toggle": True
+    },
+    {
+        "name": "StartDistanceOverride",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 12,
+        "page": "Dock",
+        "label": "Safe Override:",
+        "value": False,
+        "toggle": True
+    },
+    {
+        "name": "DockExecute",
+        "type": "action",
+        "icon": "Dock.png",
+        "location": 0,
+        "page": "Dock",
+        "callback": dock,
+        "value_buttons": [
+            "SpeedLimit",
+            "DockRoll",
+            "ForceRoll",
+            "SafeDistanceOverride",
+            "StartDistanceOverride"
+        ],
+        "params": {
+        }
+    },
+
+    *make_params("Dock", "SpeedLimit", [0.1], 0, 1),
+    *make_params("Dock", "DockRoll", [5], 1, 1),
+
+    {
+        "name": "Exit",
+        "type": "nav",
+        "icon": "Exit.png",
+        "location": 31,
+        "page": "Dock",
+        "dest": "Home"
+    },
+
+    {
+        "name": "LandingVel",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 10,
+        "page": "Land",
+        "label": "Land Vel (m/s):",
+        "value": 0.5
+    },
+
+    {
+        "name": "AutoWarpLand",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 1,
+        "page": "Land",
+        "label": "AutoWarp:",
+        "value": True,
+        "toggle": True,
+    },
+    {
+        "name": "DeployGear",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 2,
+        "page": "Land",
+        "label": "Deploy Gear:",
+        "value": True,
+        "toggle": True,
+    },
+    {
+        "name": "DeployChutes",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 3,
+        "page": "Land",
+        "label": "Deploy Chutes:",
+        "value": True,
+        "toggle": True,
+    },
+    {
+        "name": "UseRCS",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 4,
+        "page": "Land",
+        "label": "Use RCS:",
+        "value": True,
+        "toggle": True,
+    },
+
+    *make_params("Land", "LandingVel", [0.1, 1], 1, 0),
+
+    {
+        "name": "LandExecute",
+        "type": "action",
+        "icon": "Land.png",
+        "location": 0,
+        "page": "Land",
+        "callback": land,
+        "value_buttons": [
+            "LandingVel",
+            "AutoWarpLand",
+            "DeployGear",
+            "DeployChutes",
+            "UseRCS"
+        ],
+        "params": {
+        }
+    },
+
+    # Land #
+    {
+        "name": "Exit",
+        "type": "nav",
+        "icon": "Exit.png",
+        "location": 31,
+        "page": "Land",
         "dest": "Home"
     },
 ]

@@ -79,9 +79,11 @@ class ParamButton(Button):
         self.delta = delta
 
     def execute(self):
-        value = int(self.value_button.value)
-        value += self.delta
-        self.value_button.value = str(max(value, 0))
+        value = float(self.value_button.value) + self.delta
+        value = max(round(value, 1), 0)
+        if value == round(value):
+            value = int(value)
+        self.value_button.value = str(value)
 
         self.value_button.display_button()
 

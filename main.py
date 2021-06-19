@@ -10,7 +10,6 @@ from layout import layout
 from objects.Button import NavButton, ActionButton, ValueButton, ParamButton
 from objects.Page import Page
 
-
 if __name__ == "__main__":
     streamdecks = DeviceManager().enumerate()
 
@@ -24,12 +23,14 @@ if __name__ == "__main__":
         page_dict = {i: Page(deck, i) for i in get_page_names(layout)}
         for p in page_dict.values():
             for button in list(filter(lambda b: b["page"] == p.name, layout)):
+                defaults = [deck,
+                            button["location"],
+                            button["name"],
+                            path_to(button["icon"])]
+
                 if button["type"] == "nav":
                     p.add_button(NavButton(
-                        deck,
-                        button["location"],
-                        button["name"],
-                        path_to(button["icon"]),
+                        *defaults,
                         page_dict[button["dest"]])
                     )
                 elif button["type"] == "action":
@@ -40,10 +41,7 @@ if __name__ == "__main__":
                         except StopIteration:
                             pass
                     p.add_button(ActionButton(
-                        deck,
-                        button["location"],
-                        button["name"],
-                        path_to(button["icon"]),
+                        *defaults,
                         button["callback"],
                         value_buttons,
                         button["params"])
@@ -53,10 +51,7 @@ if __name__ == "__main__":
                     if "toggle" in button.keys():
                         toggle = True
                     p.add_button(ValueButton(
-                        deck,
-                        button["location"],
-                        button["name"],
-                        path_to(button["icon"]),
+                        *defaults,
                         button["value"],
                         button["label"],
                         toggle)
@@ -64,10 +59,7 @@ if __name__ == "__main__":
                 elif button["type"] == "param":
                     value_button = next(b for b in p.buttons if b.name == button["value_button"])
                     p.add_button(ParamButton(
-                        deck,
-                        button["location"],
-                        button["name"],
-                        path_to(button["icon"]),
+                        *defaults,
                         value_button,
                         button["delta"])
                     )
