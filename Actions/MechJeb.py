@@ -1,12 +1,13 @@
 import krpc
+from helper import show
 
 # TODO: Refactor param names as attribute names
 # https://stackoverflow.com/questions/2612610/how-to-access-object-attribute-given-string-corresponding-to-name-of-that-attrib
 
 # Warp #
-from helper import show
 
 # TODO: Factor this out
+
 warp_destinations = {
     "pe": "periapsis",
     "ap": "apoapsis",
@@ -207,5 +208,41 @@ def land(params):
         with enabled.condition:
             while enabled():
                 enabled.wait()
+
+    conn.close()
+
+
+def aircraft(params):
+
+    # TODO: Figure out v/s+-, roll_max
+
+    conn = krpc.connect(name="Aircraft")
+    airplane = conn.mech_jeb.airplane_autopilot
+
+    airplane.enabled = False  # Not sure why this has to be here, but apparently it does
+
+    # TODO: Factor out redundant code
+    for k, v in params.items():
+        if type(v) is bool:
+            params[k] = v
+        elif type(v.value) is bool:
+            params[k] = v.value
+        else:
+            params[k] = int(v.value)
+
+    if params["enabled"]:
+        airplane.altitude_hold_enabled = params["AltitudeHold"]
+        airplane.heading_hold_enabled = params["HeadingHold"]
+        airplane.roll_hold_enabled = params["AircraftRollHold"]
+        airplane.speed_hold_enabled = params["SpeedHold"]
+        airplane.vert_speed_hold_enabled = params["VertSpeedHold"]
+
+        airplane.altitude_target = params["AircraftAltitude"]
+        airplane.heading_target = params["AircraftHeading"]
+        airplane.roll_target = params["AircraftRoll"] - 180
+        airplane.speed_target = params["AircraftSpeed"]
+        airplane.vert_speed_target = params["AircraftVertSpeed"]
+
+    airplane.enabled = params["enabled"]
 
     conn.close()

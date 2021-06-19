@@ -1,4 +1,4 @@
-from Actions.MechJeb import warp, smart_ass, launch, rendezvous, dock, land
+from Actions.MechJeb import warp, smart_ass, launch, rendezvous, dock, land, aircraft
 from helper import make_params
 
 
@@ -56,6 +56,14 @@ layout = [
         "location": 11,
         "page": "Home",
         "dest": "Land"
+    },
+    {
+        "name": "Aircraft",
+        "type": "nav",
+        "icon": "Aircraft.png",
+        "location": 12,
+        "page": "Home",
+        "dest": "Aircraft"
     },
 
     # WARP #
@@ -579,6 +587,8 @@ layout = [
         "dest": "Home"
     },
 
+    # Land #
+
     {
         "name": "LandingVel",
         "type": "value",
@@ -650,13 +660,162 @@ layout = [
         }
     },
 
-    # Land #
     {
         "name": "Exit",
         "type": "nav",
         "icon": "Exit.png",
         "location": 31,
         "page": "Land",
+        "dest": "Home"
+    },
+
+    # Aircraft #
+
+    {
+        "name": "AltitudeHold",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 2,
+        "page": "Aircraft",
+        "label": "Alt. Hold:",
+        "value": False,
+        "toggle": True,
+    },
+    {
+        "name": "VertSpeedHold",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 10,
+        "page": "Aircraft",
+        "label": "V. Speed Hold:",
+        "value": False,
+        "toggle": True,
+    },
+    {
+        "name": "SpeedHold",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 18,
+        "page": "Aircraft",
+        "label": "Speed Hold:",
+        "value": False,
+        "toggle": True,
+    },
+    {
+        "name": "AircraftRollHold",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 16,
+        "page": "Aircraft",
+        "label": "Roll Hold:",
+        "value": False,
+        "toggle": True,
+    },
+    {
+        "name": "HeadingHold",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 27,
+        "page": "Aircraft",
+        "label": "Heading Hold:",
+        "value": False,
+        "toggle": True,
+    },
+    {
+        "name": "AircraftAltitude",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 5,
+        "page": "Aircraft",
+        "label": "Altitude (m):",
+        "value": 1000,
+    },
+    {
+        "name": "AircraftVertSpeed",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 13,
+        "page": "Aircraft",
+        "label": "V. Speed (m/s):",
+        "value": 100,
+    },
+    {
+        "name": "AircraftSpeed",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 21,
+        "page": "Aircraft",
+        "label": "Speed (m/s):",
+        "value": 300,
+    },
+    {
+        "name": "AircraftHeading",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 29,
+        "page": "Aircraft",
+        "label": "Heading (°):",
+        "value": 90,
+    },
+    {
+        "name": "AircraftRoll",
+        "type": "value",
+        "icon": "bg.png",
+        "location": 25,
+        "page": "Aircraft",
+        "label": "Roll (+180°):",
+        "value": 180,
+    },
+
+    *make_params("Aircraft", "AircraftAltitude", [100, 1000], 0, 3),
+    *make_params("Aircraft", "AircraftVertSpeed", [10, 100], 1, 3),
+    *make_params("Aircraft", "AircraftSpeed", [10, 100], 2, 3),
+    *make_params("Aircraft", "AircraftHeading", [10], 3, 4),
+    *make_params("Aircraft", "AircraftRoll", [5], 3, 0),
+
+    {
+        "name": "AircraftUpdate",
+        "type": "action",
+        "icon": "AircraftUpdate.png",
+        "location": 0,
+        "page": "Aircraft",
+        "callback": aircraft,
+        "value_buttons": [
+            "AltitudeHold",
+            "VertSpeedHold",
+            "SpeedHold",
+            "AircraftRollHold",
+            "HeadingHold",
+
+            "AircraftAltitude",
+            "AircraftVertSpeed",
+            "AircraftSpeed",
+            "AircraftRoll",
+            "AircraftHeading"
+        ],
+        "params": {
+            "enabled": True
+        }
+    },
+    {
+        "name": "AircraftOff",
+        "type": "action",
+        "icon": "AircraftOff.png",
+        "location": 1,
+        "page": "Aircraft",
+        "callback": aircraft,
+        "value_buttons": [],
+        "params": {
+            "enabled": False
+        }
+    },
+
+    {
+        "name": "Exit",
+        "type": "nav",
+        "icon": "Exit.png",
+        "location": 31,
+        "page": "Aircraft",
         "dest": "Home"
     },
 ]
