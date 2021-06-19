@@ -64,11 +64,12 @@ class ValueButton(Button):
         icon = Image.open(self.icon)
         image = PILHelper.create_scaled_image(self.deck, icon)
 
+        # TODO: Move units to bottom row, align all values and params to center
         draw = ImageDraw.Draw(image)
-        value_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 28)
         label_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 14)
-        draw.text((image.width / 2, image.height / 2 + 20), text=str(self.value), font=value_font, anchor="ms", fill="white")
+        value_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 28)
         draw.text((image.width / 2, 20), text=self.label, font=label_font, anchor="ms", fill="white")
+        draw.text((image.width / 2, image.height / 2 + 20), text=str(self.value), font=value_font, anchor="ms", fill="white")
         self.deck.set_key_image(self.location, PILHelper.to_native_format(self.deck, image))
 
 

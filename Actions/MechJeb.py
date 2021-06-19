@@ -1,5 +1,8 @@
 import krpc
 
+# TODO: Refactor param names as attribute names
+# https://stackoverflow.com/questions/2612610/how-to-access-object-attribute-given-string-corresponding-to-name-of-that-attrib
+
 # Warp #
 from helper import show
 
