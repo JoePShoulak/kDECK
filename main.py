@@ -43,14 +43,20 @@ if __name__ == "__main__":
                         button["params"])
                     )
                 elif button["type"] == "value":
+                    # TODO: Factor this out
                     toggle = False
+                    units = ""
                     if "toggle" in button.keys():
                         toggle = True
+                    if "units" in button.keys():
+                        units = button["units"]
+
                     p.add_button(ValueButton(
                         *defaults,
                         button["value"],
                         button["label"],
-                        toggle)
+                        toggle,
+                        units)
                     )
                 elif button["type"] == "param":
                     value_button = find_vb(p, button["value_button"])

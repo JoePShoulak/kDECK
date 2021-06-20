@@ -71,3 +71,14 @@ def set_params(obj, params, node=None):
         else:
             setattr(obj, k, v)
 
+
+def draw_label(draw, image, label):
+    draw.text((image.width / 2, 10), text=label, font=label_font, anchor="mt", fill="white")
+
+
+def draw_value(draw, image, value):
+    draw.text((image.width / 2, image.height / 2), text=str(value), font=value_font, anchor="mm", fill="white")
+
+
+def draw_units(draw, image, units):
+    draw.text((image.width / 2, image.height - 10), text=units, font=label_font, anchor="mb", fill="white")

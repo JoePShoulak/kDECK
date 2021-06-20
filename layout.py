@@ -1,7 +1,6 @@
 from Actions.MechJeb import warp, smart_ass, launch, rendezvous, dock, land, aircraft
 from helper import make_params
 
-
 # TODO: Find a way to refactor this a bit
 
 layout = [
@@ -71,8 +70,9 @@ layout = [
         "icon": "bg.png",
         "location": 27,
         "page": "Warp",
-        "label": "Lead time (s):",
-        "value": "0"
+        "label": "Lead time",
+        "value": "0",
+        "units": "s"
     },
     {
         "name": "WarpPE",
@@ -296,8 +296,9 @@ layout = [
         "icon": "bg.png",
         "location": 26,
         "page": "Launch",
-        "label": "Orbit Alt. (km):",
-        "value": "100"
+        "label": "Orbit Altitude",
+        "value": "100",
+        "units": "km"
     },
     {
         "name": "TurnAlt",
@@ -305,8 +306,9 @@ layout = [
         "icon": "bg.png",
         "location": 18,
         "page": "Launch",
-        "label": "Turn Alt. (km):",
-        "value": "10"
+        "label": "Turn Altitude",
+        "value": "10",
+        "units": "km"
     },
     {
         "name": "TurnVel",
@@ -314,8 +316,9 @@ layout = [
         "icon": "bg.png",
         "location": 10,
         "page": "Launch",
-        "label": "Turn Vel. (m/s):",
-        "value": "500"
+        "label": "Turn Velocity",
+        "value": "500",
+        "units": "m/s"
     },
     {
         "name": "ClimbRoll",
@@ -323,8 +326,9 @@ layout = [
         "icon": "bg.png",
         "location": 14,
         "page": "Launch",
-        "label": "Climb Roll (°):",
-        "value": "90"
+        "label": "Climb Roll",
+        "value": "90",
+        "units": "degrees"
     },
     {
         "name": "TurnRoll",
@@ -332,8 +336,9 @@ layout = [
         "icon": "bg.png",
         "location": 22,
         "page": "Launch",
-        "label": "Turn Roll (°):",
-        "value": "90"
+        "label": "Turn Roll",
+        "value": "90",
+        "units": "degrees"
     },
     {
         "name": "DeploySolar",
@@ -341,7 +346,7 @@ layout = [
         "icon": "bg.png",
         "location": 29,
         "page": "Launch",
-        "label": "Deploy Solar:",
+        "label": "Deploy Solar",
         "value": False,
         "toggle": True
     },
@@ -351,7 +356,7 @@ layout = [
         "icon": "bg.png",
         "location": 30,
         "page": "Launch",
-        "label": "Deploy Comms:",
+        "label": "Deploy Comms",
         "value": False,
         "toggle": True
     },
@@ -361,7 +366,7 @@ layout = [
         "icon": "bg.png",
         "location": 2,
         "page": "Launch",
-        "label": "Autostage to:",
+        "label": "Autostage to",
         "value": 1,
     },
     {
@@ -370,7 +375,7 @@ layout = [
         "icon": "bg.png",
         "location": 4,
         "page": "Launch",
-        "label": "Autostage:",
+        "label": "Autostage",
         "value": True,
         "toggle": True
     },
@@ -380,7 +385,7 @@ layout = [
         "icon": "bg.png",
         "location": 5,
         "page": "Launch",
-        "label": "Circularize:",
+        "label": "Circularize",
         "value": True,
         "toggle": True
     },
@@ -390,7 +395,7 @@ layout = [
         "icon": "bg.png",
         "location": 6,
         "page": "Launch",
-        "label": "Force Roll:",
+        "label": "Force Roll",
         "value": True,
         "toggle": True
     },
@@ -400,7 +405,7 @@ layout = [
         "icon": "bg.png",
         "location": 7,
         "page": "Launch",
-        "label": "Autocorrect:",
+        "label": "Autocorrect",
         "value": True,
         "toggle": True
     },
@@ -454,8 +459,9 @@ layout = [
         "icon": "bg.png",
         "location": 2,
         "page": "Rendezvous",
-        "label": "Max Orbits:",
-        "value": "5"
+        "label": "Max Phasing",
+        "value": "5",
+        "units": "orbits"
     },
     {
         "name": "desired_distance",
@@ -463,8 +469,9 @@ layout = [
         "icon": "bg.png",
         "location": 10,
         "page": "Rendezvous",
-        "label": "Distance (m):",
-        "value": "200"
+        "label": "Distance",
+        "value": "200",
+        "units": "m"
     },
     {
         "name": "autowarp",
@@ -472,7 +479,7 @@ layout = [
         "icon": "bg.png",
         "location": 4,
         "page": "Rendezvous",
-        "label": "AutoWarp:",
+        "label": "AutoWarp",
         "value": True,
         "toggle": True
     },
@@ -513,8 +520,9 @@ layout = [
         "icon": "bg.png",
         "location": 2,
         "page": "Dock",
-        "label": "Vel. Limit (m/s):",
-        "value": "1"
+        "label": "Velocity Limit",
+        "value": "1",
+        "units": "m/s"
     },
     {
         "name": "roll",
@@ -522,8 +530,9 @@ layout = [
         "icon": "bg.png",
         "location": 10,
         "page": "Dock",
-        "label": "Roll (°)",
-        "value": "0"
+        "label": "Roll",
+        "value": "0",
+        "units": "degrees"
     },
     {
         "name": "force_roll",
@@ -531,7 +540,7 @@ layout = [
         "icon": "bg.png",
         "location": 8,
         "page": "Dock",
-        "label": "Force Roll:",
+        "label": "Force Roll",
         "value": False,
         "toggle": True
     },
@@ -541,7 +550,7 @@ layout = [
         "icon": "bg.png",
         "location": 4,
         "page": "Dock",
-        "label": "Start Override:",
+        "label": "Start Override",
         "value": False,
         "toggle": True
     },
@@ -551,7 +560,7 @@ layout = [
         "icon": "bg.png",
         "location": 12,
         "page": "Dock",
-        "label": "Safe Override:",
+        "label": "Safe Override",
         "value": False,
         "toggle": True
     },
@@ -593,8 +602,9 @@ layout = [
         "icon": "bg.png",
         "location": 10,
         "page": "Land",
-        "label": "Land Vel (m/s):",
-        "value": 0.5
+        "label": "Land Velocity",
+        "value": 0.5,
+        "units": "m/s"
     },
 
     {
@@ -603,7 +613,7 @@ layout = [
         "icon": "bg.png",
         "location": 1,
         "page": "Land",
-        "label": "AutoWarp:",
+        "label": "AutoWarp",
         "value": True,
         "toggle": True,
     },
@@ -613,7 +623,7 @@ layout = [
         "icon": "bg.png",
         "location": 2,
         "page": "Land",
-        "label": "Deploy Gear:",
+        "label": "Deploy Gear",
         "value": True,
         "toggle": True,
     },
@@ -623,7 +633,7 @@ layout = [
         "icon": "bg.png",
         "location": 3,
         "page": "Land",
-        "label": "Deploy Chutes:",
+        "label": "Deploy Chutes",
         "value": True,
         "toggle": True,
     },
@@ -633,7 +643,7 @@ layout = [
         "icon": "bg.png",
         "location": 4,
         "page": "Land",
-        "label": "Use RCS:",
+        "label": "Use RCS",
         "value": True,
         "toggle": True,
     },
@@ -675,7 +685,7 @@ layout = [
         "icon": "bg.png",
         "location": 2,
         "page": "Aircraft",
-        "label": "Alt. Hold:",
+        "label": "Alt. Hold",
         "value": False,
         "toggle": True,
     },
@@ -685,7 +695,7 @@ layout = [
         "icon": "bg.png",
         "location": 10,
         "page": "Aircraft",
-        "label": "V. Speed Hold:",
+        "label": "V. Speed Hold",
         "value": False,
         "toggle": True,
     },
@@ -695,7 +705,7 @@ layout = [
         "icon": "bg.png",
         "location": 18,
         "page": "Aircraft",
-        "label": "Speed Hold:",
+        "label": "Speed Hold",
         "value": False,
         "toggle": True,
     },
@@ -705,7 +715,7 @@ layout = [
         "icon": "bg.png",
         "location": 16,
         "page": "Aircraft",
-        "label": "Roll Hold:",
+        "label": "Roll Hold",
         "value": False,
         "toggle": True,
     },
@@ -715,7 +725,7 @@ layout = [
         "icon": "bg.png",
         "location": 27,
         "page": "Aircraft",
-        "label": "Heading Hold:",
+        "label": "Heading Hold",
         "value": False,
         "toggle": True,
     },
@@ -725,8 +735,9 @@ layout = [
         "icon": "bg.png",
         "location": 5,
         "page": "Aircraft",
-        "label": "Altitude (m):",
+        "label": "Altitude",
         "value": 1000,
+        "units": "m"
     },
     {
         "name": "AircraftVertSpeed",
@@ -734,8 +745,9 @@ layout = [
         "icon": "bg.png",
         "location": 13,
         "page": "Aircraft",
-        "label": "V. Speed (m/s):",
+        "label": "Vert. Speed",
         "value": 100,
+        "units": "m/s"
     },
     {
         "name": "AircraftSpeed",
@@ -743,8 +755,9 @@ layout = [
         "icon": "bg.png",
         "location": 21,
         "page": "Aircraft",
-        "label": "Speed (m/s):",
+        "label": "Air Speed",
         "value": 300,
+        "units": "m/s"
     },
     {
         "name": "AircraftHeading",
@@ -752,8 +765,9 @@ layout = [
         "icon": "bg.png",
         "location": 29,
         "page": "Aircraft",
-        "label": "Heading (°):",
+        "label": "Heading",
         "value": 90,
+        "units": "degrees"
     },
     {
         "name": "AircraftRoll",
@@ -761,8 +775,9 @@ layout = [
         "icon": "bg.png",
         "location": 25,
         "page": "Aircraft",
-        "label": "Roll (+180°):",
+        "label": "Roll (+180)",
         "value": 180,
+        "units": "degrees"
     },
 
     *make_params("Aircraft", "AircraftAltitude", [100, 1000], 0, 3),
