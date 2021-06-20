@@ -1,5 +1,5 @@
 import krpc
-from helper import show
+from helper import show, parse, set_params
 
 # TODO: Refactor param names as attribute names
 # https://stackoverflow.com/questions/2612610/how-to-access-object-attribute-given-string-corresponding-to-name-of-that-attrib
@@ -9,35 +9,27 @@ from helper import show
 # TODO: Factor this out
 
 warp_destinations = {
-    "pe": "periapsis",
-    "ap": "apoapsis",
-    "soi": "SOI change",
+    "time_to_periapsis": "periapsis",
+    "time_to_apoapsis": "apoapsis",
+    "time_to_soi_change": "SOI change",
     "node": "maneuver node"
 }
 
 
 # TODO: Finish cases
 def warp(params):
+    conn = krpc.connect(name="Warp")
+    ut = conn.add_stream(getattr, conn.space_center, 'ut')
+    my_vessel = conn.space_center.active_vessel
+    nodes = my_vessel.control.nodes
+
     destination = params["destination"]
     lead_time = int(params["LeadTime"].value)
 
-    conn = krpc.connect(name="Smart Warp")
-    ut = conn.add_stream(getattr, conn.space_center, 'ut')
-    my_vessel = conn.space_center.active_vessel
-    my_orbit = my_vessel.orbit
-    time = 0
-
-    if destination == "pe":
-        time = my_orbit.time_to_periapsis
-    elif destination == "ap":
-        time = my_orbit.time_to_apoapsis
-    elif destination == "soi":
-        time = my_orbit.time_to_soi_change
-    elif destination == "node":
-        nodes = my_vessel.control.nodes
-        if nodes:
-            next_node = nodes[0]
-            time = next_node.time_to
+    if destination == "node" and nodes:
+        time = nodes[0].time_to
+    else:
+        time = getattr(my_vessel.orbit, destination)
 
     show(conn, f'Warping to {warp_destinations[destination]}...')
 
@@ -48,51 +40,20 @@ def warp(params):
 # TODO: Try to implement tabbed page like in the MJ UI
 # TODO: Using above layout, add all params
 def smart_ass(params):
+    conn = krpc.connect(name="Smart A.S.S.")
+    smartass = conn.mech_jeb.smart_ass
+
     direction = params["direction"]
-    conn = krpc.connect(name="Smart Ass")
-    mj = conn.mech_jeb
 
-    modes = mj.SmartASSAutopilotMode
-
-    # Orbital
-    if direction == "prograde":
-        mode = modes.prograde
-    elif direction == "retrograde":
-        mode = modes.retrograde
-    elif direction == "normal":
-        mode = modes.normal_plus
-    elif direction == "antinormal":
-        mode = modes.normal_minus
-    elif direction == "radialout":
-        mode = modes.radial_plus
-    elif direction == "radialin":
-        mode = modes.radial_minus
-    # Surface
-    elif direction == "svel+":
-        mode = modes.surface_prograde
-    elif direction == "svel-":
-        mode = modes.surface_retrograde
-    elif direction == "hvel+":
-        mode = modes.horizontal_plus
-    elif direction == "hvel-":
-        mode = modes.horizontal_minus
-    elif direction == "surf":
-        mode = modes.off  # TODO: Implement surface
-    elif direction == "up":
-        mode = modes.vertical_plus
-
+    smartass.autopilot_mode = getattr(conn.mech_jeb.SmartASSAutopilotMode, direction)
     show(conn, f'Smart A.S.S. set to {direction}')
+    smartass.update(False)
 
-    mj.smart_ass.autopilot_mode = mode
     conn.close()
 
 
 def launch(params):
-    for k, v in params.items():
-        if type(v.value) == bool:
-            params[k] = v.value
-        else:
-            params[k] = int(v.value)
+    parse(params)
 
     conn = krpc.connect(name="Ascent Autopilot")
     ascent = conn.mech_jeb.ascent_autopilot
@@ -102,7 +63,7 @@ def launch(params):
     ascent.ascent_path_classic.auto_path = True
     ascent.ascent_path_classic.turn_start_altitude = params["TurnAlt"]*1000
     ascent.ascent_path_classic.turn_start_velocity = params["TurnVel"]
-    ascent.force_roll = params["RollToggle"]
+    ascent.force_roll = params["ForceRoll"]
     ascent.vertical_roll = params["ClimbRoll"]
     ascent.turn_roll = params["TurnRoll"]
     ascent.autodeploy_solar_panels = params["DeploySolar"]
@@ -126,20 +87,11 @@ def launch(params):
 
 
 def rendezvous(params):
-    conn = krpc.connect(name="Rendezvous orbit")
+    conn = krpc.connect(name="Rendezvous Autopilot")
     ren = conn.mech_jeb.rendezvous_autopilot
     node = conn.mech_jeb.node_executor
 
-    # TODO: Factor out redundant code
-    for k, v in params.items():
-        if type(v.value) == bool:
-            params[k] = v.value
-        else:
-            params[k] = int(v.value)
-
-    ren.max_phasing_orbits = params["MaxOrbits"]
-    ren.desired_distance = params["Distance"]
-    node.autowarp = params["AutoWarpToggle"]
+    set_params(ren, params, node)
 
     ren.enabled = True
     show(conn, "Initiating rendezvous...")
@@ -153,21 +105,10 @@ def rendezvous(params):
 
 
 def dock(params):
-    # TODO: Check all these naming conventions being used
-    conn = krpc.connect(name="Rendezvous orbit")
+    conn = krpc.connect(name="Docking Autopilot")
     dock_a = conn.mech_jeb.docking_autopilot
 
-    for k, v in params.items():
-        if type(v.value) == bool:
-            params[k] = v.value
-        else:
-            params[k] = int(v.value)
-
-    dock_a.speed_limit = params["SpeedLimit"]
-    dock_a.override_safe_distance = params["SafeDistanceOverride"]
-    dock_a.override_start_distance = params["StartDistanceOverride"]
-    dock_a.force_roll = params["ForceRoll"]
-    dock_a.roll = params["DockRoll"]
+    set_params(dock, params)
 
     dock_a.enabled = True
 
@@ -182,22 +123,11 @@ def dock(params):
 
 
 def land(params):
-    conn = krpc.connect(name="Landing")
+    conn = krpc.connect(name="Landing Guidance")
     landing = conn.mech_jeb.landing_autopilot
     node = conn.mech_jeb.node_executor
 
-    # TODO: Factor out redundant code
-    for k, v in params.items():
-        if type(v.value) == bool:
-            params[k] = v.value
-        else:
-            params[k] = int(v.value)
-
-    landing.touchdown_speed = params["LandingVel"]
-    landing.deploy_gears = params["DeployGear"]
-    landing.deploy_chutes = params["DeployChutes"]
-    landing.rcs_adjustment = params["UseRCS"]
-    node.autowarp = params["AutoWarpLand"]
+    set_params(landing, params, node)
 
     landing.land_untargeted()
     landing.enabled = True
@@ -216,19 +146,12 @@ def aircraft(params):
 
     # TODO: Figure out v/s+-, roll_max
 
-    conn = krpc.connect(name="Aircraft")
+    conn = krpc.connect(name="Aircraft Autopilot")
     airplane = conn.mech_jeb.airplane_autopilot
 
     airplane.enabled = False  # Not sure why this has to be here, but apparently it does
 
-    # TODO: Factor out redundant code
-    for k, v in params.items():
-        if type(v) is bool:
-            params[k] = v
-        elif type(v.value) is bool:
-            params[k] = v.value
-        else:
-            params[k] = int(v.value)
+    parse(params)
 
     if params["enabled"]:
         airplane.altitude_hold_enabled = params["AltitudeHold"]

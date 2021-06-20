@@ -2,9 +2,7 @@ from Actions.MechJeb import warp, smart_ass, launch, rendezvous, dock, land, air
 from helper import make_params
 
 
-def empty():
-    pass
-
+# TODO: Find a way to refactor this a bit
 
 layout = [
 
@@ -85,7 +83,7 @@ layout = [
         "callback": warp,
         "value_buttons": ["LeadTime"],
         "params": {
-            "destination": "pe",
+            "destination": "time_to_periapsis",
         }
     },
     {
@@ -97,7 +95,7 @@ layout = [
         "callback": warp,
         "value_buttons": ["LeadTime"],
         "params": {
-            "destination": "ap",
+            "destination": "time_to_apoapsis",
         }
     },
     {
@@ -109,7 +107,7 @@ layout = [
         "callback": warp,
         "value_buttons": ["LeadTime"],
         "params": {
-            "destination": "soi",
+            "destination": "time_to_soi_change",
         }
     },
     {
@@ -170,7 +168,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "normal",
+            "direction": "normal_plus",
         }
     },
     {
@@ -182,7 +180,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "antinormal",
+            "direction": "normal_minus",
         }
     },
     {
@@ -194,7 +192,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "radialout",
+            "direction": "radial_plus",
         }
     },
     {
@@ -206,7 +204,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "radialin",
+            "direction": "radial_minus",
         }
     },
     # Surface
@@ -219,7 +217,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "svel+",
+            "direction": "surface_prograde",
         }
     },
     {
@@ -231,7 +229,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "svel-",
+            "direction": "surface_retrograde",
         }
     },
     {
@@ -243,7 +241,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "hvel+",
+            "direction": "horizontal_plus",
         }
     },
     {
@@ -255,7 +253,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "hvel-",
+            "direction": "horizontal_minus",
         }
     },
     {
@@ -267,7 +265,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "surf",
+            "direction": "off",  # TODO: Implement surface
         }
     },
     {
@@ -279,7 +277,7 @@ layout = [
         "callback": smart_ass,
         "value_buttons": [],
         "params": {
-            "direction": "up",
+            "direction": "vertical_plus",
         }
     },
     {
@@ -387,7 +385,7 @@ layout = [
         "toggle": True
     },
     {
-        "name": "RollToggle",
+        "name": "ForceRoll",
         "type": "value",
         "icon": "bg.png",
         "location": 6,
@@ -425,7 +423,7 @@ layout = [
             "AutostageLimit",
             "AutostageToggle",
             "CircularizeToggle",
-            "RollToggle",
+            "ForceRoll",
             "CorrectiveSteeringToggle"
         ],
         "params": {
@@ -451,7 +449,7 @@ layout = [
     # Rendezvous #
 
     {
-        "name": "MaxOrbits",
+        "name": "max_phasing_orbits",
         "type": "value",
         "icon": "bg.png",
         "location": 2,
@@ -460,7 +458,7 @@ layout = [
         "value": "5"
     },
     {
-        "name": "Distance",
+        "name": "desired_distance",
         "type": "value",
         "icon": "bg.png",
         "location": 10,
@@ -469,7 +467,7 @@ layout = [
         "value": "200"
     },
     {
-        "name": "AutoWarpToggle",
+        "name": "autowarp",
         "type": "value",
         "icon": "bg.png",
         "location": 4,
@@ -487,16 +485,16 @@ layout = [
         "page": "Rendezvous",
         "callback": rendezvous,
         "value_buttons": [
-            "MaxOrbits",
-            "Distance",
-            "AutoWarpToggle"
+            "max_phasing_orbits",
+            "desired_distance",
+            "autowarp"
         ],
         "params": {
         }
     },
 
-    *make_params("Rendezvous", "MaxOrbits", [1], 0, 1),
-    *make_params("Rendezvous", "Distance", [10, 100], 1),
+    *make_params("Rendezvous", "max_phasing_orbits", [1], 0, 1),
+    *make_params("Rendezvous", "desired_distance", [10, 100], 1),
 
     {
         "name": "Exit",
@@ -510,7 +508,7 @@ layout = [
     # Dock #
 
     {
-        "name": "SpeedLimit",
+        "name": "speed_limit",
         "type": "value",
         "icon": "bg.png",
         "location": 2,
@@ -519,7 +517,7 @@ layout = [
         "value": "1"
     },
     {
-        "name": "DockRoll",
+        "name": "roll",
         "type": "value",
         "icon": "bg.png",
         "location": 10,
@@ -528,7 +526,7 @@ layout = [
         "value": "0"
     },
     {
-        "name": "ForceRoll",
+        "name": "force_roll",
         "type": "value",
         "icon": "bg.png",
         "location": 8,
@@ -538,7 +536,7 @@ layout = [
         "toggle": True
     },
     {
-        "name": "SafeDistanceOverride",
+        "name": "override_safe_distance",
         "type": "value",
         "icon": "bg.png",
         "location": 4,
@@ -548,7 +546,7 @@ layout = [
         "toggle": True
     },
     {
-        "name": "StartDistanceOverride",
+        "name": "override_start_distance",
         "type": "value",
         "icon": "bg.png",
         "location": 12,
@@ -565,18 +563,18 @@ layout = [
         "page": "Dock",
         "callback": dock,
         "value_buttons": [
-            "SpeedLimit",
-            "DockRoll",
-            "ForceRoll",
-            "SafeDistanceOverride",
-            "StartDistanceOverride"
+            "speed_limit",
+            "roll",
+            "force_roll",
+            "override_safe_distance",
+            "override_start_distance"
         ],
         "params": {
         }
     },
 
-    *make_params("Dock", "SpeedLimit", [0.1], 0, 1),
-    *make_params("Dock", "DockRoll", [5], 1, 1),
+    *make_params("Dock", "speed_limit", [0.1], 0, 1),
+    *make_params("Dock", "roll", [5], 1, 1),
 
     {
         "name": "Exit",
@@ -590,7 +588,7 @@ layout = [
     # Land #
 
     {
-        "name": "LandingVel",
+        "name": "touchdown_speed",
         "type": "value",
         "icon": "bg.png",
         "location": 10,
@@ -600,7 +598,7 @@ layout = [
     },
 
     {
-        "name": "AutoWarpLand",
+        "name": "autowarp",
         "type": "value",
         "icon": "bg.png",
         "location": 1,
@@ -610,7 +608,7 @@ layout = [
         "toggle": True,
     },
     {
-        "name": "DeployGear",
+        "name": "deploy_gears",
         "type": "value",
         "icon": "bg.png",
         "location": 2,
@@ -620,7 +618,7 @@ layout = [
         "toggle": True,
     },
     {
-        "name": "DeployChutes",
+        "name": "deploy_chutes",
         "type": "value",
         "icon": "bg.png",
         "location": 3,
@@ -630,7 +628,7 @@ layout = [
         "toggle": True,
     },
     {
-        "name": "UseRCS",
+        "name": "rcs_adjustment",
         "type": "value",
         "icon": "bg.png",
         "location": 4,
@@ -640,7 +638,7 @@ layout = [
         "toggle": True,
     },
 
-    *make_params("Land", "LandingVel", [0.1, 1], 1, 0),
+    *make_params("Land", "touchdown_speed", [0.1, 1], 1, 0),
 
     {
         "name": "LandExecute",
@@ -650,11 +648,11 @@ layout = [
         "page": "Land",
         "callback": land,
         "value_buttons": [
-            "LandingVel",
-            "AutoWarpLand",
-            "DeployGear",
-            "DeployChutes",
-            "UseRCS"
+            "touchdown_speed",
+            "autowarp",
+            "deploy_gears",
+            "deploy_chutes",
+            "rcs_adjustment"
         ],
         "params": {
         }
@@ -819,4 +817,3 @@ layout = [
         "dest": "Home"
     },
 ]
-

@@ -4,7 +4,7 @@ import threading
 
 from StreamDeck.DeviceManager import DeviceManager
 
-from helper import get_page_names, path_to
+from helper import get_page_names, path_to, find_vb
 from layout import layout
 
 from objects.Button import NavButton, ActionButton, ValueButton, ParamButton
@@ -17,7 +17,6 @@ if __name__ == "__main__":
         deck.open()
         deck.reset()
 
-        # Set initial screen brightness to 30%.
         deck.set_brightness(100)
 
         page_dict = {i: Page(deck, i) for i in get_page_names(layout)}
@@ -26,8 +25,8 @@ if __name__ == "__main__":
                 defaults = [deck,
                             button["location"],
                             button["name"],
-                            path_to(button["icon"])]
-
+                            path_to(button["icon"])
+                            ]
                 if button["type"] == "nav":
                     p.add_button(NavButton(
                         *defaults,
@@ -36,10 +35,7 @@ if __name__ == "__main__":
                 elif button["type"] == "action":
                     value_buttons = []
                     for vb in button["value_buttons"]:
-                        try:
-                            value_buttons.append(next(b for b in p.buttons if b.name == vb))
-                        except StopIteration:
-                            pass
+                        value_buttons.append(find_vb(p, vb))
                     p.add_button(ActionButton(
                         *defaults,
                         button["callback"],
@@ -57,7 +53,7 @@ if __name__ == "__main__":
                         toggle)
                     )
                 elif button["type"] == "param":
-                    value_button = next(b for b in p.buttons if b.name == button["value_button"])
+                    value_button = find_vb(p, button["value_button"])
                     p.add_button(ParamButton(
                         *defaults,
                         value_button,
@@ -65,8 +61,7 @@ if __name__ == "__main__":
                     )
 
         page_dict["Home"].render_buttons()
-        # Wait until all application threads have terminated (for this example,
-        # this is when all deck handles are closed).
+
         for t in threading.enumerate():
             if t is threading.currentThread():
                 continue

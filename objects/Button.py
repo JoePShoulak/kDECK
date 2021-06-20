@@ -65,6 +65,7 @@ class ValueButton(Button):
         image = PILHelper.create_scaled_image(self.deck, icon)
 
         # TODO: Move units to bottom row, align all values and params to center
+        # TODO: Add min/max options
         draw = ImageDraw.Draw(image)
         label_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 14)
         value_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 28)
