@@ -9,6 +9,7 @@ from helper import draw_label, draw_value, draw_units
 dirname = os.path.dirname
 ASSETS_PATH = os.path.join(dirname(dirname(__file__)), "Assets")
 
+# TODO: Fix
 label_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 14)
 value_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 28)
 

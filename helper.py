@@ -1,5 +1,7 @@
 import os
 
+from PIL import ImageFont
+
 ASSETS_PATH = os.path.join(os.path.dirname(__file__), "Assets")
 
 
@@ -70,6 +72,10 @@ def set_params(obj, params, node=None):
             node.autowarp = v
         else:
             setattr(obj, k, v)
+
+
+label_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 14)
+value_font = ImageFont.truetype(os.path.join(ASSETS_PATH, "Roboto-Regular.ttf"), 28)
 
 
 def draw_label(draw, image, label):
